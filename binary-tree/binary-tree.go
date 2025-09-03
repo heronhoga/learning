@@ -72,6 +72,34 @@ func breadthFirstValues(bt BinaryTree) []int64 {
 	return  values
 }
 
+//find a value
+func treeIncludes(root *BinaryNode, target int64) bool {
+	if root == nil {
+		return false
+	}
+
+	queue := []*BinaryNode{root}
+
+	for len(queue) != 0 {
+		current := queue[0]
+		queue = queue[1:]
+
+		if current.data == target {
+			return true
+		}
+
+		if current.left != nil {
+			queue = append(queue, current.left)
+		}
+
+		if current.right != nil {
+			queue = append(queue, current.right)
+		}
+	}
+
+	return false
+}
+
 func main() {
 	//define nodes
 	node1 := &BinaryNode{data: 1}
@@ -93,5 +121,6 @@ func main() {
 	fmt.Println(depthFirstValuesRecursive(node1))
 	fmt.Println("BREADTH FIRST VAL")
 	fmt.Println(breadthFirstValues(tree))
-
+	fmt.Println("FIND VALUE ")
+	fmt.Println(treeIncludes(node1, 7))
 }
