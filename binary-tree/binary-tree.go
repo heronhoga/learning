@@ -100,6 +100,7 @@ func treeIncludes(root *BinaryNode, target int64) bool {
 	return false
 }
 
+
 func treeIncludesRecursive(root *BinaryNode, target int64) bool {
 	if root == nil {
 		return false
@@ -112,6 +113,40 @@ func treeIncludesRecursive(root *BinaryNode, target int64) bool {
 	right :=treeIncludes(root.right, target)
 
 	return left || right
+}
+
+//tree sum
+//tree sum recursive
+func treeSumRecursive(root *BinaryNode) int64 {
+	if root == nil {
+		return 0
+	}
+
+	return root.data + treeSumRecursive(root.left) + treeSumRecursive(root.right)
+}
+
+func treeSum(root *BinaryNode) int64 {
+	if root == nil {
+		return 0
+	}
+	var sum int64 = 0
+	queue := []*BinaryNode{root}
+
+	for len(queue) != 0 {
+		current := queue[0]
+		sum += current.data
+		queue = queue[1:]
+
+		if current.right != nil {
+			queue = append(queue, current.right)
+		}
+
+		if current.left != nil {
+			queue = append(queue, current.left)
+		}
+	}
+
+	return sum
 }
 
 func main() {
@@ -138,4 +173,6 @@ func main() {
 	fmt.Println("FIND VALUE ")
 	fmt.Println("FIND VALUE USING NON-RECURSIVE BFS: ", treeIncludes(node1, 7))
 	fmt.Println("FIND VALUE USING RECURSIVE BFS: ", treeIncludesRecursive(node1, 6))
+	fmt.Println("TREE SUM RECURSIVE: ", treeSumRecursive(node1))
+	fmt.Println("TREE SUM: ", treeSum(node1))
 }
