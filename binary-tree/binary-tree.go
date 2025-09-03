@@ -100,6 +100,20 @@ func treeIncludes(root *BinaryNode, target int64) bool {
 	return false
 }
 
+func treeIncludesRecursive(root *BinaryNode, target int64) bool {
+	if root == nil {
+		return false
+	}
+
+	if root.data == target {
+		return true
+	}
+	left := treeIncludes(root.left, target)
+	right :=treeIncludes(root.right, target)
+
+	return left || right
+}
+
 func main() {
 	//define nodes
 	node1 := &BinaryNode{data: 1}
@@ -122,5 +136,6 @@ func main() {
 	fmt.Println("BREADTH FIRST VAL")
 	fmt.Println(breadthFirstValues(tree))
 	fmt.Println("FIND VALUE ")
-	fmt.Println(treeIncludes(node1, 7))
+	fmt.Println("FIND VALUE USING NON-RECURSIVE BFS: ", treeIncludes(node1, 7))
+	fmt.Println("FIND VALUE USING RECURSIVE BFS: ", treeIncludesRecursive(node1, 6))
 }
