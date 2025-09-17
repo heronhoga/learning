@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"math"
+)
 
 //node type
 type BinaryNode struct {
@@ -149,6 +152,35 @@ func treeSum(root *BinaryNode) int64 {
 	return sum
 }
 
+func treeMin(root *BinaryNode) int64 {
+	smallest := int64(math.MaxInt64)
+	if root == nil {
+		return smallest
+	}
+
+	stack := []*BinaryNode{root}
+
+	for len(stack) > 0 {
+		current := stack[len(stack)-1]
+		stack = stack[:len(stack)-1]
+
+		if current.data < int64(smallest) {
+			smallest = current.data
+		}
+
+		if current.right != nil {
+			stack = append(stack, current.right)
+		}
+
+		if current.left != nil {
+			stack = append(stack, current.left)
+		}
+	}
+
+	return int64(smallest)
+
+}
+
 func main() {
 	//define nodes
 	node1 := &BinaryNode{data: 1}
@@ -175,4 +207,5 @@ func main() {
 	fmt.Println("FIND VALUE USING RECURSIVE BFS: ", treeIncludesRecursive(node1, 6))
 	fmt.Println("TREE SUM RECURSIVE: ", treeSumRecursive(node1))
 	fmt.Println("TREE SUM: ", treeSum(node1))
+	fmt.Println("TREE MIN VALUE: ", treeMin(node1))
 }
