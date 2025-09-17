@@ -181,6 +181,31 @@ func treeMin(root *BinaryNode) int64 {
 
 }
 
+func treeMinRecursive(root *BinaryNode) int64 {
+	if root == nil {
+		return math.MaxInt64
+	}
+
+	leftMin := treeMinRecursive(root.left)
+	rightMin := treeMinRecursive(root.right)
+
+	return min(root.data, leftMin, rightMin)
+}
+
+func maxRootToLeafSum(root *BinaryNode) int64 {
+	if root == nil {
+		return math.MinInt64
+	}
+
+	if root.left == nil && root.right == nil {
+		return root.data
+	}
+
+	maxChildPathSum := math.Max(float64(maxRootToLeafSum(root.left)), float64(maxRootToLeafSum(root.right)))
+
+	return root.data + int64(maxChildPathSum)
+}
+
 func main() {
 	//define nodes
 	node1 := &BinaryNode{data: 1}
@@ -208,4 +233,6 @@ func main() {
 	fmt.Println("TREE SUM RECURSIVE: ", treeSumRecursive(node1))
 	fmt.Println("TREE SUM: ", treeSum(node1))
 	fmt.Println("TREE MIN VALUE: ", treeMin(node1))
+	fmt.Println("TREE MIN VALUE RECURSIVE DFS: ", treeMinRecursive(node1))
+	fmt.Println("MAX ROOT TO LEAF VALUE: ", maxRootToLeafSum(node1))
 }
