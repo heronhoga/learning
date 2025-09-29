@@ -53,6 +53,28 @@ func (l *LinkedList) Delete(data int64) {
 	}
 }
 
+func (l *LinkedList) InsertAfter(data int64, dataRef int64) {
+	if l.head == nil {
+		fmt.Println("List is empty, cannot insert after", dataRef)
+		return
+	}
+
+	current := l.head
+	for current != nil {
+		if current.data == dataRef {
+			newNode := &Node{data: data}
+			newNode.next = current.next
+			current.next = newNode
+			fmt.Println("Data successfully added")
+			return
+		}
+		current = current.next
+	}
+
+	fmt.Println("No data matched")
+}
+
+
 func (l *LinkedList) Traverse() {
 	if l.head == nil {
 		fmt.Println("No Data")
@@ -76,6 +98,9 @@ func main() {
 	list.InsertAtEnd(9)
 	list.InsertAtBegin(100)
 	list.InsertAtEnd(12)
+	list.Traverse()
+	list.InsertAfter(12, 3)
+	list.Traverse()
 	list.InsertAtEnd(64)
 	list.InsertAtEnd(245)
 	list.Traverse()
